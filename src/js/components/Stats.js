@@ -11,11 +11,11 @@ class Stat extends React.Component {
 
 export default class Stats extends React.Component {
   addStat (key) {
-    store.dispatch(upgradeStat(key))
+    store.dispatch(upgradeStat(this.props.character, key))
   }
 
   minusStat (key) {
-    store.dispatch(downgradeStat(key))
+    store.dispatch(downgradeStat(this.props.character, key))
   }
 
   render () {

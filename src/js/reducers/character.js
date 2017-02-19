@@ -1,18 +1,17 @@
 import * as actionTypes from '../actionTypes/character'
 
+import store from '../store'
+
 export default function reducer (state = {}, action) {
   switch (action.type) {
-    case actionTypes.MODIFY_STAT:
-      let newState = {
+    case 'MODIFY_STAT_FULFILLED':
+      const newState = {
         ...state
       }
-      let stat = newState.stats[action.payload.key]
-      stat += action.payload.amount
-      stat = Math.min(stat, 3)
-      stat = Math.max(stat, -1)
-      newState.stats[action.payload.key] = stat
       return newState
       break
+    case 'FETCH_CHARACTER_FULFILLED':
+      return action.payload
   }
   return state
 }
