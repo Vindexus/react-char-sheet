@@ -17,9 +17,7 @@ const initState = {
     items: []
   }
 }
-
 const middleware = applyMiddleware(promise(), thunk, logger())
-
 const store = createStore(reducer, initState, middleware)
 
 export default store

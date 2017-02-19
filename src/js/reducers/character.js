@@ -12,6 +12,7 @@ export default function reducer (state = {}, action) {
       break
     case 'FETCH_CHARACTER_FULFILLED':
       return action.payload
+    default:
+      return state
   }
-  return state
 }
