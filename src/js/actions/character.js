@@ -1,11 +1,28 @@
-import '../actionTypes/character'
+import * as actionTypes from '../actionTypes/character'
 import axios from 'axios'
 
+const charactersUrl = 'http://rest.learncode.academy/api/vindexus3/characters/'
+
 export const updateCharacter = (character)=> {
-  return {
-    type: UPDATE_CHARACTER,
-    payload: character
-  }
+  return (dispatch => {
+    dispatch({
+      type: actionTypes.UPDATE_CHARACTER_PENDING
+    })
+    axios.put(charactersUrl + character.id, character)
+      .then((resp) => {
+        dispatch({
+          type: actionTypes.UPDATE_CHARACTER_FULFILLED,
+          payload: resp.data
+        })
+        dispatch(fetchCharacters())
+      })
+      .catch((err) => {
+        dispatch({
+          type: actionTypes.UPDATE_CHARACTER_REJECTED,
+          payload: err
+        })
+      })
+  })
 }
 
 export const upgradeStat = (character, key) => {
@@ -19,19 +36,19 @@ export const downgradeStat = (character, key) => {
 export const fetchCharacter = (id) => {
   return (dispatch) => {
     dispatch({
-      type: 'FETCH_CHARACTER_PENDING'
+      type: actionTypes.FETCH_CHARACTER_PENDING
     })
 
-    axios.get("http://rest.learncode.academy/api/vindexus/characters/" + id)
+    axios.get(charactersUrl + id)
         .then((resp) => {
             dispatch({
-              type: 'FETCH_CHARACTER_FULFILLED',
+              type: actionTypes.FETCH_CHARACTER_FULFILLED,
               payload: resp.data
             })
         })
         .catch((err) => {
           dispatch({
-            type: 'FETCH_CHARACTER_REJECTED',
+            type: actionTypes.FETCH_CHARACTER_REJECTED,
             payload: err
           })
         })
@@ -41,19 +58,19 @@ export const fetchCharacter = (id) => {
 export const fetchCharacters = (id) => {
   return (dispatch) => {
     dispatch({
-      type: 'FETCH_CHARACTERS_PENDING'
+      type: actionTypes.FETCH_CHARACTERS_PENDING
     })
 
-    axios.get("http://rest.learncode.academy/api/vindexus/characters")
+    axios.get(charactersUrl)
         .then((resp) => {
             dispatch({
-              type: 'FETCH_CHARACTERS_FULFILLED',
+              type: actionTypes.FETCH_CHARACTERS_FULFILLED,
               payload: resp.data
             })
         })
         .catch((err) => {
           dispatch({
-            type: 'FETCH_CHARACTERS_REJECTED',
+            type: actionTypes.FETCH_CHARACTERS_REJECTED,
             payload: err
           })
         })
@@ -72,19 +89,19 @@ export const addCharacter = () => {
       }
     }
     dispatch({
-      type: 'ADD_CHARACTER_PENDING'
+      type: actionTypes.ADD_CHARACTER_PENDING
     })
-    axios.post('http://rest.learncode.academy/api/vindexus/characters', defaultCharacter)
+    axios.post(charactersUrl, defaultCharacter)
       .then((resp) => {
         dispatch({
-          type: 'ADD_CHARACTER_FULFILLED',
+          type: actionTypes.ADD_CHARACTER_FULFILLED,
           payload: resp.data
         })
         dispatch(fetchCharacters())
       })
       .catch((err) => {
         dispatch({
-          type: 'ADD_CHARACTER_REJECTED',
+          type: actionTypes.ADD_CHARACTER_REJECTED,
           payload: err
         })
       })
@@ -94,7 +111,7 @@ export const addCharacter = () => {
 export const modifyStat = (character, key, amount) => {
   return (dispatch) => {
     dispatch({
-      type: 'MODIFY_STAT_PENDING'
+      type: actionTypes.MODIFY_STAT_PENDING
     })
 
     let stat = character.stats[key]
@@ -103,17 +120,17 @@ export const modifyStat = (character, key, amount) => {
     stat = Math.max(stat, -1)
     character.stats[key] = stat
 
-    axios.put('http://rest.learncode.academy/api/vindexus/characters/' + character.id, character)
+    axios.put(charactersUrl + character.id, character)
         .then((resp) => {
           dispatch({
-            type: 'MODIFY_STAT_FULFILLED',
+            type: actionTypes.MODIFY_STAT_FULFILLED,
             payload: resp.data
           })
           dispatch(fetchCharacter(character.id))
         })
         .catch((err) => {
           dispatch({
-            type: 'MODIFY_STAT_REJECTED',
+            type: actionTypes.MODIFY_STAT_REJECTED,
             payload: err
           })
         })

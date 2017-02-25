@@ -19,7 +19,11 @@ export default class Stats extends React.Component {
   }
 
   render () {
-    const keys = Object.keys(this.props.character.stats)
+    let stats = this.props.character.stats
+    if(stats == undefined) {
+      stats = {}
+    }
+    const keys = Object.keys(stats)
     const statRows = keys.map((key) => {
       return (
         <tr key={key}>
