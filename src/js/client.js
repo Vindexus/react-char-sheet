@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom'
 
 import { Provider } from "react-redux"
 
-import CharacterSheet from './components/CharacterSheet'
+import CharacterSheets from './components/CharacterSheets'
 
 import store from './store'
 
 ReactDOM.render(
 <Provider store={store}>
-  <CharacterSheet />
+  <CharacterSheets />
 </Provider>, document.getElementById('app'))

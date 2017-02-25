@@ -6,15 +6,10 @@ import thunk from "redux-thunk"
 import promise from "redux-promise-middleware"
 
 const initState = {
-  character: {
-    name: 'Vindexus',
-    stats: {
-      strength: 1,
-      speed: 1,
-      wits: -1,
-      aim: 1
-    },
-    items: []
+  characters: {
+    list: [],
+    loading: false,
+    error: null
   }
 }
 const middleware = applyMiddleware(promise(), thunk, logger())
