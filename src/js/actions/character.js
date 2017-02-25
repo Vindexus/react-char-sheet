@@ -1,9 +1,9 @@
-import * as actionTypes from '../actionTypes/character'
+import '../actionTypes/character'
 import axios from 'axios'
 
 export const updateCharacter = (character)=> {
   return {
-    type: actionTypes.UPDATE_CHARACTER,
+    type: UPDATE_CHARACTER,
     payload: character
   }
 }
