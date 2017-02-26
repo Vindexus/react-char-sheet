@@ -4,26 +4,26 @@ import store from '../store'
 
 export default function reducer (state = {}, action) {
   switch (action.type) {
-    case 'MODIFY_STAT_FULFILLED':
+    case actionTypes.MODIFY_STAT_FULFILLED:
       const newState = {
         ...state
       }
       return newState
       break
-    case 'FETCH_CHARACTERS_PENDING':
+    case actionTypes.FETCH_CHARACTERS_PENDING:
       return {
         ...state,
         loading: true
       }
       break
-    case 'FETCH_CHARACTERS_FULFILLED':
+    case actionTypes.FETCH_CHARACTERS_FULFILLED:
       return {
         ...state,
         loading: false,
         list: action.payload
       }
       break
-    case 'FETCH_CHARACTER_FULFILLED':
+    case actionTypes.FETCH_CHARACTER_FULFILLED:
       let characters = state.list
       for(var i = 0; i < characters.length; i++) {
         if(characters[i].id == action.payload.id) {
@@ -34,6 +34,7 @@ export default function reducer (state = {}, action) {
         ...state,
         list: characters
       }
+      break
     default:
       return state
   }

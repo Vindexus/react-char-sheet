@@ -30,14 +30,14 @@ export default class Stats extends React.Component {
           <td>{key}</td>
           <td><Stat stat={this.props.character.stats[key]} /></td>
           <td>
-            <button type="button" onClick={() => { this.addStat(key) }}> + UPGRADE</button>
-            <button type="button" onClick={() => { this.minusStat(key) }}> - DOWNGRADE</button>
+            <button class="btn btn-secondary btn-sm" type="button" onClick={() => { this.addStat(key) }}> + </button>
+            <button class="btn btn-secondary btn-sm" type="button" onClick={() => { this.minusStat(key) }}> - </button>
           </td>
         </tr>
       )
     })
     return (
-      <table>
+      <table class="table table-striped table-sm">
         <tbody>
           {statRows}
         </tbody>

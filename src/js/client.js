@@ -10,5 +10,7 @@ import store from './store'
 
 ReactDOM.render(
 <Provider store={store}>
-  <CharacterSheets />
+  <div class="container">
+    <CharacterSheets />
+  </div>
 </Provider>, document.getElementById('app'))

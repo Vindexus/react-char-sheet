@@ -25,6 +25,28 @@ export const updateCharacter = (character)=> {
   })
 }
 
+export const deleteCharacter = (id)=> {
+  return (dispatch => {
+    dispatch({
+      type: actionTypes.DELETE_CHARACTER_PENDING
+    })
+    axios.delete(charactersUrl + id)
+      .then((resp) => {
+        dispatch({
+          type: actionTypes.DELETE_CHARACTER_FULFILLED,
+          payload: resp.data
+        })
+        dispatch(fetchCharacters())
+      })
+      .catch((err) => {
+        dispatch({
+          type: actionTypes.DELETE_CHARACTER_REJECTED,
+          payload: err
+        })
+      })
+  })
+}
+
 export const upgradeStat = (character, key) => {
   return modifyStat(character, key, 1)
 }
@@ -80,13 +102,16 @@ export const fetchCharacters = (id) => {
 export const addCharacter = () => {
   return (dispatch => {
     const defaultCharacter = {
-      name: 'Vindexus ' + new Date().getTime().toString().substr(-1, 3),
+      name: 'Vindexus ' + new Date().getTime().toString().substr(-3),
       stats: {
         strength: 0,
         wits: 0,
         aim: 0,
         speed: 0
-      }
+      },
+      moves: [],
+      currentHP: 10,
+      maxHP: 10
     }
     dispatch({
       type: actionTypes.ADD_CHARACTER_PENDING
@@ -121,18 +146,36 @@ export const modifyStat = (character, key, amount) => {
     character.stats[key] = stat
 
     axios.put(charactersUrl + character.id, character)
-        .then((resp) => {
-          dispatch({
-            type: actionTypes.MODIFY_STAT_FULFILLED,
-            payload: resp.data
-          })
-          dispatch(fetchCharacter(character.id))
+      .then((resp) => {
+        dispatch({
+          type: actionTypes.MODIFY_STAT_FULFILLED,
+          payload: resp.data
         })
-        .catch((err) => {
-          dispatch({
-            type: actionTypes.MODIFY_STAT_REJECTED,
-            payload: err
-          })
+        dispatch(fetchCharacter(character.id))
+      })
+      .catch((err) => {
+        dispatch({
+          type: actionTypes.MODIFY_STAT_REJECTED,
+          payload: err
         })
+      })
   }
+}
+
+
+export const characterAddMove = (character, newMoveKey) => {
+  character.moves = character.moves || []
+
+  if(character.moves.indexOf(newMoveKey) >= 0) {
+    return {
+      type: 'CHARACTER_ADD_MOVE_REJECTED',
+      payload: {
+        character: character,
+        error: 'You already have that move'
+      }
+    }
+  }
+
+  character.moves.push(newMoveKey)
+  return updateCharacter(character)
 }
