@@ -162,13 +162,21 @@ export const modifyStat = (character, key, amount) => {
   }
 }
 
+export const updateCharacterHealth = (character, currentHP, maxHP) => {
+  character.currentHP = currentHP
+  character.maxHP = maxHP
+  character.currentHP = Math.min(character.currentHP, character.maxHP)
+
+  return updateCharacter(character)
+}
+
 
 export const characterAddMove = (character, newMoveKey) => {
   character.moves = character.moves || []
 
   if(character.moves.indexOf(newMoveKey) >= 0) {
     return {
-      type: 'CHARACTER_ADD_MOVE_REJECTED',
+      type: actionTypes.CHARACTER_ADD_MOVE_REJECTED,
       payload: {
         character: character,
         error: 'You already have that move'
