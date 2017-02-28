@@ -19,7 +19,6 @@ export default class CharacterMoves extends React.Component {
   }
 
   dropdownChange (e) {
-    console.log('e.target.value', e.target.value)
     this.setState({
       selectedMove: e.target.value
     })
@@ -34,7 +33,6 @@ export default class CharacterMoves extends React.Component {
   render () {
     const selectedMove = this.state.selectedMove
     const { character } = this.props
-    console.log('character.moves', character.moves)
     return (
       <section class="character-moves-container">
         <form onSubmit={this.addMove.bind(this)} class="form-inline">

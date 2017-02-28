@@ -33,7 +33,6 @@ export default class CharacterHP extends React.Component {
 
   submitHealth (e) {
     e.preventDefault()
-    console.log('hi')
     this.props.dispatch(updateCharacterHealth(this.props.character, this.state.currentHP, this.state.maxHP))
   }
 
